@@ -101,3 +101,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# data
+data16000/
+data32000/
+
+# ??
+
+
+
