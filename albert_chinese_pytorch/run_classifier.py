@@ -414,8 +414,10 @@ def main():
     parser.add_argument('--server_ip', type=str, default='', help="For distant debugging.")
     parser.add_argument('--server_port', type=str, default='', help="For distant debugging.")
 
-    ## Exp1.
-    args = parser.parse_args()
+    ## Exp1. wanfang_cla albert_xlarge_zh_183k data16000
+    args= parser.parse_args('--data_dir dataset/data16000 --model_type albert --model_name_or_path prev_trained_model/albert_xlarge_zh_183k --output_dir outputs/Exp1 \
+        --max_seq_length 400 --num_train_epochs 3 --per_gpu_train_batch_size 10 --per_gpu_eval_batch_size 10 --learning_rate 5e-5 \
+            --save_steps 1000 --seed 1 --do_train --do_eval --do_predict'.split())
 
     if not os.path.exists(args.output_dir):
         os.mkdir(args.output_dir)

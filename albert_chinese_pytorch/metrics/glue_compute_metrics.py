@@ -42,6 +42,14 @@ def acc_and_f1(preds, labels):
         "acc_and_f1": (acc + f1) / 2,
     }
 
+def acc_and_f1_cla(preds, labels, labels_num):
+    acc = simple_accuracy(preds, labels)
+    f1 = f1_score(y_true=labels, y_pred=preds,labels=[str(i) for i in range(labels_num), average='weighted')
+    return {
+        "acc": acc,
+        "f1": f1,
+        "acc_and_f1": (acc + f1) / 2,
+    }
 
 def pearson_and_spearman(preds, labels):
     pearson_corr = pearsonr(preds, labels)[0]
@@ -83,5 +91,7 @@ def compute_metrics(task_name, preds, labels):
         return {"acc": simple_accuracy(preds, labels)}
     elif task_name == "inews":
         return {"acc": simple_accuracy(preds, labels)}
+    elif task_name == "cla_r":
+        return acc_and_f1_cla(preds,labels,16)
     else:
         raise KeyError(task_name)
