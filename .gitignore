@@ -107,7 +107,9 @@ venv.bak/
 data16000/
 data32000/
 
-# ??
+# models
+prev_trained_model/
+
 
 
 
