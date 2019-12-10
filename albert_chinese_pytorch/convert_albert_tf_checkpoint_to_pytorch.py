@@ -25,6 +25,9 @@ from model.modeling_albert import BertConfig, AlbertForPreTraining, load_tf_weig
 
 import logging
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+
 logging.basicConfig(level=logging.INFO)
 
 def convert_tf_checkpoint_to_pytorch(tf_checkpoint_path, bert_config_file,share_type, pytorch_dump_path):
@@ -64,7 +67,7 @@ if __name__ == "__main__":
                         type = str,
                         required = True,
                         help = "Path to the output PyTorch model.")
-    args = parser.parse_args()
+    args = parser.parse_args('--tf_checkpoint_path prev_trained_model/albert_large_zh --bert_config_file prev_trained_model/albert_large_zh/config.json --pytorch_dump_path prev_trained_model/albert_large_zh/pytorch_model.bin'.split())
     convert_tf_checkpoint_to_pytorch(args.tf_checkpoint_path,
                                      args.bert_config_file,
                                      args.share_type,

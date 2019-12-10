@@ -44,7 +44,7 @@ def acc_and_f1(preds, labels):
 
 def acc_and_f1_cla(preds, labels, labels_num):
     acc = simple_accuracy(preds, labels)
-    f1 = f1_score(y_true=labels, y_pred=preds,labels=[str(i) for i in range(labels_num), average='weighted')
+    f1 = f1_score(y_true=labels, y_pred=preds,labels=[str(i) for i in range(labels_num)], average='weighted')
     return {
         "acc": acc,
         "f1": f1,

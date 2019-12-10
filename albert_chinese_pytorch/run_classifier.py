@@ -41,6 +41,9 @@ from tools.common import seed_everything
 from tools.common import init_logger, logger
 from callback.progressbar import ProgressBar
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+
 ALL_MODELS = sum((tuple(conf.pretrained_config_archive_map.keys()) for conf in (BertConfig,)), ())
 MODEL_CLASSES = {
     'albert': (BertConfig, AlbertForSequenceClassification, BertTokenizer)
@@ -282,7 +285,7 @@ def load_and_cache_examples(args, task, tokenizer, data_type='train'):
     # Load data features from cache or dataset file
     cached_features_file = os.path.join(args.data_dir, 'cached_{}_{}_{}_{}'.format(
         data_type,
-        list(filter(None, args.model_name_or_path.split('/'))).pop(),
+        list(filter(None, args.model_name_or_path.split('\\'))).pop(),
         str(args.max_seq_length),
         str(task)))
     if os.path.exists(cached_features_file):
@@ -414,10 +417,16 @@ def main():
     parser.add_argument('--server_ip', type=str, default='', help="For distant debugging.")
     parser.add_argument('--server_port', type=str, default='', help="For distant debugging.")
 
-    ## Exp1. wanfang_cla albert_xlarge_zh_183k data16000
-    args= parser.parse_args('--data_dir dataset/data16000 --model_type albert --model_name_or_path prev_trained_model/albert_xlarge_zh_183k --output_dir outputs/Exp1 \
-        --max_seq_length 400 --num_train_epochs 3 --per_gpu_train_batch_size 10 --per_gpu_eval_batch_size 10 --learning_rate 5e-5 \
-            --save_steps 1000 --seed 1 --do_train --do_eval --do_predict'.split())
+    # ## Exp1. wanfang_cla albert_xlarge_zh_183k data16000
+    # args= parser.parse_args('--data_dir dataset\\data16000 --model_type albert --task_name cla_r --model_name_or_path prev_trained_model\\albert_xlarge_zh_183k --output_dir outputs\\Exp1 \
+    #     --max_seq_length 128 --num_train_epochs 3 --per_gpu_train_batch_size 10 --per_gpu_eval_batch_size 10 --learning_rate 5e-5 \
+    #         --save_steps 1000 --seed 1 --do_train --do_eval --do_predict --overwrite_output_dir'.split())
+
+    ## Exp2. wanfang_cla albert_large_zh data16000
+    args = parser.parse_args('--data_dir dataset\\data16000 --model_type albert --task_name cla_r --model_name_or_path prev_trained_model\\albert_large_zh --output_dir outputs\\Exp2 \
+            --max_seq_length 200 --num_train_epochs 3 --per_gpu_train_batch_size 10 --per_gpu_eval_batch_size 10 --learning_rate 5e-5 \
+                --save_steps 1000 --seed 1 --do_train --do_eval --do_predict --overwrite_output_dir'.split())
+
 
     if not os.path.exists(args.output_dir):
         os.mkdir(args.output_dir)
